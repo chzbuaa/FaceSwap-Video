@@ -38,6 +38,26 @@
 
 We present PersonaLive, a `real-time` and `streamable` diffusion framework capable of generating `infinite-length` portrait animations.
 
+## 💡 About This Fork
+
+This project is a reproduction of [GVCLab/PersonaLive](https://github.com/GVCLab/PersonaLive) with the following enhancements:
+
+- **Lower VRAM Requirement**: Optimized to run on **8GB VRAM** GPUs (originally required 12GB+)
+- **Chunk-based Inference**: Added `--chunk` parameter for long video generation, splitting videos into manageable chunks to avoid OOM errors
+- **Memory-efficient Streaming**: Improved memory management for generating videos with 1000+ frames on consumer GPUs
+
+### Usage
+
+```bash
+# Standard mode (for short videos, L <= 300)
+python inference_offline.py -L 300 --reference_image ref.jpg --driving_video drive.mp4 --name test
+
+# Chunk mode (for long videos, L > 300, runs on 8GB VRAM)
+python inference_offline.py -L 1000 --reference_image ref.jpg --driving_video drive.mp4 --name test --chunk
+
+# Custom chunk size
+python inference_offline.py -L 1000 --reference_image ref.jpg --driving_video drive.mp4 --name test --chunk --chunk_size 200
+```
 
 ## 🚀 Getting Started
 ### 🛠 Installation
