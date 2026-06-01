@@ -11,10 +11,6 @@ This project is a reproduction of [GVCLab/PersonaLive](https://github.com/GVCLab
 <img src="assets/demo4.gif" width="46%">
 </div>
 
-## ⚙️ Framework
-<img src="assets/overview.png" alt="Image 1" width="100%">
-
-
 
 ### Usage
 
@@ -147,15 +143,7 @@ python inference_online.py --acceleration none (for RTX 50-Series) or xformers o
 ```
 Then open `http://0.0.0.0:7860` in your browser. (*If `http://0.0.0.0:7860` does not work well, try `http://localhost:7860`)
 
-**How to use**: Upload Image ➡️ Fuse Reference ➡️ Start Animation ➡️ Enjoy! 🎉
-<div align="center">
-  <img src="assets/guide.png" alt="PersonaLive" width="60%">
-</div>
 
-**Regarding Latency**: Latency varies depending on your device's computing power. You can try the following methods to optimize it:
-
-1. Lower the "Driving FPS" setting in the WebUI to reduce the computational workload.
-2. You can increase the multiplier (e.g., set to `num_frames_needed * 4` or higher) to better match your device's inference speed. https://github.com/GVCLab/PersonaLive/blob/6953d1a8b409f360a3ee1d7325093622b29f1e22/webcam/util.py#L73
 
 ## 🚄 Model Training
 
@@ -209,86 +197,3 @@ data:
     - "./data/VFHQ_meta.json"
     - "./data/OtherDataset_meta.json"
 ```
-
-### 3️⃣ Download weights
-Download the training initialization weights: [X-NeMo](https://drive.google.com/drive/folders/1RdjBYYbstO7SOchDg7oimoAwu03g_-mI), [pose_guider](https://drive.google.com/drive/folders/1F6lyYfC5RijdS2SmvTct_8L9HZweV4nF?usp=sharing), and [stylegan2_discriminator](https://drive.google.com/drive/folders/1F6lyYfC5RijdS2SmvTct_8L9HZweV4nF?usp=sharing).
-
-```text
-pretrained_weights
-├── xnemo
-│   ├── xnemo_motion_encoder.pth
-│   ├── xnemo_denoising_unet.pth
-│   ├── xnemo_reference_unet.pth
-│   └── xnemo_temporal_module.pth
-├── sd-vae-ft-mse
-│   ├── diffusion_pytorch_model.bin
-│   └── config.json
-├── sd-image-variations-diffusers
-│   ├── image_encoder
-│   │   ├── pytorch_model.bin
-│   │   └── config.json
-│   ├── unet
-│   │   ├── diffusion_pytorch_model.bin
-│   │   └── config.json
-│   └── model_index.json
-├── pose_guider.pth
-└── stylegan2_discriminator_ffhq512.pth
-```
-
-### 4️⃣ Training workflow
-
-#### Stage 1: Image-level warm-up
-Run:
-```bash
-accelerate launch train_stage1.py --config ./configs/train/personalive_stage1.yaml
-```
-
-Default output folder: `./exp_output/personalive_stage1/`
-
-#### Stage 2: Image-level adversarial refinement
-
-Update `configs/train/personalive_stage2.yaml` to point to Stage 1 outputs:
-```bash
-motion_encoder_path: './exp_output/personalive_stage1/motion_encoder-xxxxx.pth'
-denoising_unet_path: './exp_output/personalive_stage1/denoising_unet-xxxxx.pth'
-reference_unet_path: './exp_output/personalive_stage1/reference_unet-xxxxx.pth'
-pose_guider_path: './exp_output/personalive_stage1/pose_guider-xxxxx.pth'
-```
-
-Run:
-```bash
-accelerate launch train_stage2.py --config ./configs/train/personalive_stage2.yaml
-```
-
-Default output folder: `./exp_output/personalive_stage2/`
-
-#### Stage 3: Temporal module fine-tuning for streaming
-
-Update `configs/train/personalive_stage3.yaml` to point to Stage 2 outputs:
-
-```bash
-motion_encoder_path: './exp_output/personalive_stage2/motion_encoder-xxxxx.pth'
-denoising_unet_path: './exp_output/personalive_stage2/denoising_unet-xxxxx.pth'
-reference_unet_path: './exp_output/personalive_stage2/reference_unet-xxxxx.pth'
-pose_guider_path: './exp_output/personalive_stage2/pose_guider-xxxxx.pth'
-discriminator_path: './exp_output/personalive_stage2/discriminator-xxxxx.pth'
-```
-
-Run:
-```bash
-accelerate launch train_stage3.py --config ./configs/train/personalive_stage3.yaml
-```
-
-Default output folder: `./exp_output/personalive_stage3/`
-
-## 📚 Community Contribution
-
-Special thanks to the community for providing helpful setups! 🥂
-
-* **Windows + RTX 50-Series Guide**: Thanks to [@dknos](https://github.com/dknos) for providing a [detailed guide](https://github.com/GVCLab/PersonaLive/issues/10#issuecomment-3662785532) on running this project on Windows with Blackwell GPUs.
-
-* **TensorRT on Windows**: If you are trying to convert TensorRT models on Windows, [this discussion](https://github.com/GVCLab/PersonaLive/issues/8) might be helpful. Special thanks to [@MaraScott](https://github.com/MaraScott) and [@Jeremy8776](https://github.com/Jeremy8776) for their insights.
-  
-* **ComfyUI**: Thanks to [@okdalto](https://github.com/okdalto) for helping implement the [ComfyUI-PersonaLive](https://github.com/okdalto/ComfyUI-PersonaLive) support.
-
-* **Useful Scripts**: Thanks to [@suruoxi](https://github.com/suruoxi) for implementing `download_weights.py`, and to [@andchir](https://github.com/andchir) for adding audio merging functionality.
