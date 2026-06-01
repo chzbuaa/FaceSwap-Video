@@ -509,6 +509,10 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
         # pre-process
         sample = self.conv_in(sample)
         if pose_cond_fea is not None:
+            if pose_cond_fea.shape[-2:] != sample.shape[-2:]:
+                import torch.nn.functional as F
+                target_h, target_w = sample.shape[-2], sample.shape[-1]
+                pose_cond_fea = F.interpolate(pose_cond_fea, size=(pose_cond_fea.shape[2], target_h, target_w), mode='trilinear', align_corners=False)
             sample = sample + pose_cond_fea
 
         # down

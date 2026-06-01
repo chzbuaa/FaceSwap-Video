@@ -177,7 +177,9 @@ def add_audio_to_video(video_path, audio_source_path, output_path=None, verbose=
         result = subprocess.run(
             cmd,
             capture_output=True,
-            text=True
+            text=True,
+            encoding='utf-8',
+            errors='ignore'
         )
 
         if result.returncode != 0:
@@ -400,6 +402,12 @@ def crop_face(image_pil, face_mesh):
     image = np.array(image_pil)
     h, w = image.shape[:2]
     results = face_mesh.process(image)
+    
+    if results.multi_face_landmarks is None or len(results.multi_face_landmarks) == 0:
+        # 没检测到人脸，返回原图
+        print("Warning: No face detected, returning center crop")
+        return image
+    
     face_landmarks = results.multi_face_landmarks[0]
     coords = [(int(l.x * w), int(l.y * h)) for l in face_landmarks.landmark]
     xs, ys = zip(*coords)
@@ -431,3 +439,35 @@ def scale_bb(bbox, scale, size):
     right = min(size[1] - 1, right)
     bot = min(size[0] - 1, bot)
     return np.array([left, top, right, bot])
+
+
+class VideoStreamWriter:
+    def __init__(self, path, fps=25, width=512, height=512, crf=18):
+        import av
+        self.path = path
+        self.fps = fps
+        self.crf = crf
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        self.container = av.open(path, "w")
+        self.stream = self.container.add_stream("libx264", rate=fps)
+        self.stream.width = width
+        self.stream.height = height
+        self.stream.options = {"crf": str(crf)}
+        self.frame_count = 0
+
+    def write_frame(self, pil_image):
+        av_frame = av.VideoFrame.from_image(pil_image)
+        self.container.mux(self.stream.encode(av_frame))
+        self.frame_count += 1
+
+    def close(self, audio_source=None):
+        self.container.mux(self.stream.encode())
+        self.container.close()
+        if audio_source is not None:
+            add_audio_to_video(self.path, audio_source, verbose=False)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()

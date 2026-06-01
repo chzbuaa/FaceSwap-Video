@@ -1,0 +1,129 @@
+# ============================================
+# Video files
+# ============================================
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.flv
+*.wmv
+*.webm
+
+# ============================================
+# Model files
+# ============================================
+*.pth
+*.pt
+*.onnx
+*.ckpt
+*.safetensors
+*.bin
+*.model
+*.pb
+*.engine
+
+# ============================================
+# Image files (except assets/ and demo/)
+# ============================================
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tiff
+*.tif
+*.gif
+*.webp
+!assets/
+!demo/
+
+# ============================================
+# Log files
+# ============================================
+*.log
+*.log.*
+logs/
+
+# ============================================
+# Results and outputs
+# ============================================
+results/
+outputs/
+
+# ============================================
+# Downloads
+# ============================================
+downloads/
+
+# ============================================
+# Pretrained weights (large files, download separately)
+# ============================================
+pretrained_weights/
+!pretrained_weights/readme.txt
+
+# ============================================
+# Cache and temp files
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.tmp
+*.cache
+
+# ============================================
+# IDE and editor files
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# OS files
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ============================================
+# Jupyter Notebook
+# ============================================
+.ipynb_checkpoints
+
+# ============================================
+# Environment
+# ============================================
+.env
+.venv/
+venv/
+env/
+*.egg
+
+# ============================================
+# Node modules (webcam frontend)
+# ============================================
+webcam/frontend/node_modules/
+webcam/frontend/.svelte-kit/
+webcam/frontend/build/
+
+# ============================================
+# Config overrides (local configs)
+# ============================================
+*_local.yaml
+*_local.json
+
+# ============================================
+# Checkpoints and training outputs
+# ============================================
+checkpoints/
+experiments/
+runs/
+tensorboard/

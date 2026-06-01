@@ -1,6 +1,8 @@
 import os
 from pathlib import Path, PurePosixPath
 
+os.environ['HuggingFaceHubMirror'] = 'https://hf-mirror.com'
+
 from huggingface_hub import hf_hub_download
 
 def prepare_base_model():
