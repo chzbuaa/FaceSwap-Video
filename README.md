@@ -1,42 +1,3 @@
-<div align="center">
-
-<img src="assets/header.svg" alt="PersonaLive" width="100%">
-
-<h2>Expressive Portrait Image Animation for Live Streaming</h2>
-
-#### [Zhiyuan Li<sup>1,2,3</sup>](https://huai-chang.github.io/) · [Chi-Man Pun<sup>1,📪</sup>](https://cmpun.github.io/) · [Chen Fang<sup>2</sup>](http://fangchen.org/) · [Jue Wang<sup>2</sup>](https://scholar.google.com/citations?user=Bt4uDWMAAAAJ&hl=en) · [Xiaodong Cun<sup>3,📪</sup>](https://vinthony.github.io/academic/) 
-<sup>1</sup> University of Macau  &nbsp;&nbsp; <sup>2</sup> [Dzine.ai](https://www.dzine.ai/)  &nbsp;&nbsp; <sup>3</sup> [GVC Lab, Great Bay University](https://gvclab.github.io/)
-
-<a href='https://arxiv.org/abs/2512.11253'><img src='https://img.shields.io/badge/ArXiv-2512.11253-red'></a> <a href='https://huggingface.co/huaichang/PersonaLive'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-ffc107'></a> <a href='https://modelscope.cn/models/huaichang/PersonaLive'><img src='https://img.shields.io/badge/ModelScope-Model-624AFF'></a> [![GitHub](https://img.shields.io/github/stars/GVCLab/PersonaLive?style=social)](https://github.com/GVCLab/PersonaLive)
-
-<img src="assets/highlight.svg" alt="highlight" width="95%">
-
-<img src="assets/demo_3.gif" width="46%"> &nbsp;&nbsp; <img src="assets/demo_2.gif" width="40.5%">
-</div>
-
-## 📋 TODO
-- [ ] If you find PersonaLive useful or interesting, please give us a Star🌟! Your support drives us to keep improving.
-- [ ] Fix bugs (If you encounter any issues, please feel free to open an issue or contact me! 🙏)
-- [x] **[2026.05.15]** 🔥 Release `training code`.
-- [x] **[2026.02.21]** 🥳 PersonaLive is accepted by CVPR2026 🎉.
-- [x] **[2025.12.29]** 🔥 Enhance WebUI (Support reference image replacement).
-- [x] **[2025.12.22]** 🔥 Supported streaming strategy in offline inference to generate long videos on 12GB VRAM!
-- [x] **[2025.12.17]** 🔥 [ComfyUI-PersonaLive](https://github.com/okdalto/ComfyUI-PersonaLive) is now supported! (Thanks to [@okdalto](https://github.com/okdalto))
-- [x] **[2025.12.15]** 🔥 Release `paper`!
-- [x] **[2025.12.12]** 🔥 Release `inference code`, `config`, and `pretrained weights`!
-  
-## ⚖️ Disclaimer
-
-- [x] This project is released for **academic research only**.
-- [x] Users must not use this repository to generate harmful, defamatory, or illegal content.
-- [x] The authors bear no responsibility for any misuse or legal consequences arising from the use of this tool.
-- [x] By using this code, you agree that you are solely responsible for any content generated.
-
-## ⚙️ Framework
-<img src="assets/overview.png" alt="Image 1" width="100%">
-
-
-We present PersonaLive, a `real-time` and `streamable` diffusion framework capable of generating `infinite-length` portrait animations.
 
 ## 💡 About This Fork
 
@@ -45,6 +6,15 @@ This project is a reproduction of [GVCLab/PersonaLive](https://github.com/GVCLab
 - **Lower VRAM Requirement**: Optimized to run on **8GB VRAM** GPUs (originally required 12GB+)
 - **Chunk-based Inference**: Added `--chunk` parameter for long video generation, splitting videos into manageable chunks to avoid OOM errors
 - **Memory-efficient Streaming**: Improved memory management for generating videos with 1000+ frames on consumer GPUs
+
+<div align="center">
+<img src="assets/demo4.gif" width="46%">
+</div>
+
+## ⚙️ Framework
+<img src="assets/overview.png" alt="Image 1" width="100%">
+
+
 
 ### Usage
 
