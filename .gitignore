@@ -127,3 +127,9 @@ checkpoints/
 experiments/
 runs/
 tensorboard/
+
+# ============================================
+# Bin directories
+# ============================================
+*/bin/
+bin/
